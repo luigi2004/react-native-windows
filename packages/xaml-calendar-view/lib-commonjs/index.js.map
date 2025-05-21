@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../src/index.ts"],"names":[],"mappings":";;;;;;AAAA,gGAAyD;AAEjD,uBAFD,qCAAY,CAEC","sourcesContent":["import CalendarView from './CalendarViewNativeComponent';\n\nexport {CalendarView};\n"]}

@@ -1,0 +1,33 @@
+{
+  "name": "xaml-calendar-view",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "rnw-scripts buildWithCodegetNativeComponents",
+    "lint": "rnw-scripts lint",
+    "lint:fix": "rnw-scripts lint:fix"
+  },
+  "dependencies": {
+    "react-native-windows": "^0.0.0-canary.952"
+  },
+  "codegenConfig": {
+    "name": "CalendarView",
+    "type": "all",
+    "jsSrcsDir": "src",
+    "windows": {
+      "generators": "componentsWindows",
+      "namespace": "winrt::XamlCalendarView::Codegen",
+      "outputDirectory": "windows/XamlCalendarView/codegen"
+    }
+  },
+  "react-native-windows": {
+    "init-windows": {
+      "name": "XamlCalendarView",
+      "namespace": "XamlCalendarView",
+      "template": "cpp-lib"
+    }
+  },
+  "devDependencies": {}
+}
