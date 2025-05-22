@@ -29,4 +29,9 @@ private:
   React::ReactContext m_context;
 };
 
+void RegisterCalendarViewNativeComponent(
+    winrt::Microsoft::ReactNative::IReactPackageBuilder const &packageBuilder) noexcept;
+
 } // namespace winrt::XamlCalendarView
+
+

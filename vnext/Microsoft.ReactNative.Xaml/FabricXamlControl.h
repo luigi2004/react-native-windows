@@ -9,6 +9,8 @@ static_assert(false, "This module requires RNW_NEW_ARCH to be defined.");
 #include <JSValueComposition.h>
 
 #include <winrt/Microsoft.ReactNative.Composition.h>
+#include <winrt/Microsoft.ReactNative.Xaml.h>
+
 #include <winrt/Microsoft.UI.Composition.h>
 
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
@@ -141,12 +143,18 @@ struct BaseFabricXamlControl {
   std::shared_ptr<FabricXamlControlEventEmitter> m_eventEmitter;
 };
 
-struct XamlControlComponentView : public winrt::implements<XamlControlComponentView, winrt::IInspectable>,
+struct XamlControlComponentView : public winrt::implements<XamlControlComponentView, 
+      winrt::Microsoft::ReactNative::Xaml::IXamlControl, winrt::IInspectable>,
                                   BaseFabricXamlControl<XamlControlComponentView> {
   XamlControlComponentView(winrt::hstring name) : m_xamlTypeName(name) {
     ::OutputDebugString(L"Microsoft::ReactNative::Xaml constructor\n");
     ::OutputDebugString(m_xamlTypeName.c_str());
     ::OutputDebugString(L"\n");
+  }
+
+  // IXamlControl
+  winrt::Microsoft::UI::Xaml::UIElement GetXamlElement() {
+    return GetXamlElementInternal();
   }
 
   // MountChildComponentView will only be called if this method is overridden
@@ -156,9 +164,10 @@ struct XamlControlComponentView : public winrt::implements<XamlControlComponentV
     // We're adding a child Xaml element to this Xaml element.
     auto child = args.Child();
     auto userData = child.UserData();
-    auto childXamlControl = userData.as<XamlControlComponentView>();
+    //auto childXamlControl = userData.as<XamlControlComponentView>();
+    auto childXamlControl = userData.as<winrt::Microsoft::ReactNative::Xaml::IXamlControl>();
     if (childXamlControl) {
-      auto childXamlElement = childXamlControl->GetXamlElement();
+      auto childXamlElement = childXamlControl.GetXamlElement();
       auto thisElement = GetXamlElement();
       AddXamlChild(thisElement, childXamlElement, args.Index());
     }
@@ -170,7 +179,7 @@ struct XamlControlComponentView : public winrt::implements<XamlControlComponentV
     // We're adding a child Xaml element to this Xaml element.
     auto child = args.Child();
     auto userData = child.UserData();
-    auto childXamlControl = userData.as<XamlControlComponentView>();
+    auto childXamlControl = userData.as<winrt::Microsoft::ReactNative::Xaml::IXamlControl>();
     if (childXamlControl) {
       auto thisElement = GetXamlElement();
       RemoveXamlChild(thisElement, args.Index());
@@ -235,7 +244,7 @@ struct XamlControlComponentView : public winrt::implements<XamlControlComponentV
     children.RemoveAt(index);
   }
 
-  winrt::Microsoft::UI::Xaml::UIElement GetXamlElement() {
+  winrt::Microsoft::UI::Xaml::UIElement GetXamlElementInternal() {
     if (!m_xamlElement) {
       if (wcscmp(m_xamlTypeName.c_str(), L"FX_StackPanel") == 0) {
         m_xamlElement = winrt::Microsoft::UI::Xaml::Controls::StackPanel();

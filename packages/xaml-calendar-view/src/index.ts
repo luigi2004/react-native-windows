@@ -1,3 +1,7 @@
 import CalendarView from './CalendarViewNativeComponent';
 
-export {CalendarView};
+//import {XamlHost} from 'react-native-windows';
+
+
+
+export {CalendarView};//}, XamlCalendarView};

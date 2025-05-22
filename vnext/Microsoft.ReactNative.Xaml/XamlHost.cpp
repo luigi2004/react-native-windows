@@ -40,16 +40,17 @@ struct XamlHostComponentView : public winrt::implements<XamlHostComponentView, w
       const winrt::Microsoft::ReactNative::ComponentView & /*view*/,
       const winrt::Microsoft::ReactNative::MountChildComponentViewArgs &args) noexcept override {
     // Add the xaml child to the m_xamlIsland here.
-    auto xamlControl = args.Child().UserData().as<XamlControlComponentView>();
-    if (xamlControl) {
-      auto xamlElement = xamlControl->GetXamlElement();
+    //auto xamlControl = args.Child().UserData().as<XamlControlComponentView>();
+    auto childXamlControl = args.Child().UserData().as<winrt::Microsoft::ReactNative::Xaml::IXamlControl>();
+    if (childXamlControl) {
+      auto xamlElement = childXamlControl.GetXamlElement();
       m_xamlIsland.Content(xamlElement);
     }
   }
 
   void UnmountChildComponentView(
       const winrt::Microsoft::ReactNative::ComponentView & /*view*/,
-      const winrt::Microsoft::ReactNative::UnmountChildComponentViewArgs &args) noexcept override {
+      const winrt::Microsoft::ReactNative::UnmountChildComponentViewArgs &) noexcept override {
     m_xamlIsland.Content(nullptr);
   }
 

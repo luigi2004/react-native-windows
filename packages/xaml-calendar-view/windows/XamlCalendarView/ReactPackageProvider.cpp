@@ -15,6 +15,7 @@ namespace winrt::XamlCalendarView::implementation
 void ReactPackageProvider::CreatePackage(IReactPackageBuilder const &packageBuilder) noexcept
 {
   AddAttributedModules(packageBuilder, true);
+  RegisterCalendarViewNativeComponent(packageBuilder);
 }
 
 } // namespace winrt::XamlCalendarView::implementation
